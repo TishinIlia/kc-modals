@@ -1,16 +1,22 @@
-import React, { useState, FC, ReactElement, useEffect } from 'react'
+import React, { useState, FC, ReactElement, useEffect, MouseEvent } from 'react'
 import { createPortal } from 'react-dom'
 
- type ModalProps = {
-   children: ReactElement
-   onClose: VoidFunction
- }
+type ModalProps = {
+  children: ReactElement
+  onClose: VoidFunction
+}
 
 const Modal: FC<ModalProps> = ({ children, onClose }) => {
+  const clickHandle = (e: MouseEvent) => {
+    e.stopPropagation()
+    onClose()
+  }
+
   return createPortal(
+    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
     <div
       role="dialog"
-      onClick={() => onClose()}
+      onClick={clickHandle}
       style={{
         position: 'fixed',
         width: '100%',
@@ -23,6 +29,7 @@ const Modal: FC<ModalProps> = ({ children, onClose }) => {
         top: 0,
       }}
     >
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions */}
       <div
         style={{
           padding: 10,
@@ -39,12 +46,12 @@ const Modal: FC<ModalProps> = ({ children, onClose }) => {
   )
 }
 
- type ModalWrapperProps = {
-   children: ReactElement
-   onClose: VoidFunction
- }
+type ModalWrapperProps = {
+  children: ReactElement
+  onClose: VoidFunction
+}
 
- const ModalWrapper: FC<ModalWrapperProps> = ({ children, onClose }) => {
+const ModalWrapper: FC<ModalWrapperProps> = ({ children, onClose }) => {
   useEffect(() => {
     const documentKeyboardHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -66,8 +73,14 @@ const ModalManager = () => {
   const [isOpened3, setIsOpened3] = useState(false)
 
   const onClose1 = () => setIsOpened1(false)
-  const onClose2 = () => setIsOpened2(false)
-  const onClose3 = () => setIsOpened3(false)
+  const onClose2 = () => {
+    setIsOpened1(true)
+    setIsOpened2(false)
+  }
+  const onClose3 = () => {
+    setIsOpened2(true)
+    setIsOpened3(false)
+  }
 
   return (
     <div className="App">

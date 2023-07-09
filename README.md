@@ -1,2 +1,3 @@
-# kc-modals
-Created with CodeSandbox
+# GitHub UsersList
+
+Покажем пользователей гитхаба!
