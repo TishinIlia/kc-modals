@@ -53,10 +53,12 @@ module.exports = {
 		client: {
 			overlay: false,
 		},
+		host: 'localhost',
 		hot: true,
 		open: true,
 		historyApiFallback: true,
 		compress: true,
 		port: 3000,
+		allowedHosts: 'all',
 	},
 }
